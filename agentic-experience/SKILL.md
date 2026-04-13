@@ -280,7 +280,7 @@ Write to `./mutations/{role_type}-gen-{n}.json` where `{n}` is the NEXT generati
 
 1. **Be specific.** "Improve the prompt" is not a mutation. "Add instruction: always verify email deliverability before sending batch" is a mutation.
 2. **One mutation per insight.** Don't bundle multiple changes into one mutation entry.
-3. **Flag hard rails honestly.** If a mutation would change a core objective, ethical boundary, spend limit, or user-defined immutable — set `touches_hard_rail: true`. Do not try to work around hard rails. HR-Ops will block the mutation and escalate to Zion.
+3. **Flag hard rails honestly.** If a mutation would change a core objective, ethical boundary, spend limit, or user-defined immutable — set `touches_hard_rail: true`. Do not try to work around hard rails. HR-Ops will block the mutation and escalate to the user.
 4. **Include evidence.** Every mutation must reference specific audit findings that justify it. No speculative mutations.
 5. **Score your confidence.** Low = "this might help, I'm not sure." Medium = "this is likely correct based on one run." High = "this is clearly the right change based on strong evidence."
 6. **Capture the performance delta.** If you inherited intelligence that included a prior generation's score, compare it to yours. This is how HR-Ops detects regression and triggers rollback.
@@ -379,7 +379,7 @@ Read `./objective-memory/{objective-hash}.json`. If it doesn't exist, create it.
 
 5. **Separate observation from recommendation.** The audit captures what happened. The mutation payload captures what should change. Keep them in separate files with clear references between them.
 
-6. **Never touch hard rails.** If a mutation would modify a core objective, ethical boundary, spend limit, or user-defined immutable instruction — flag it with `touches_hard_rail: true` and explain which rail and why. Do not attempt to rephrase the mutation to work around the rail. HR-Ops blocks it and escalates to Zion.
+6. **Never touch hard rails.** If a mutation would modify a core objective, ethical boundary, spend limit, or user-defined immutable instruction — flag it with `touches_hard_rail: true` and explain which rail and why. Do not attempt to rephrase the mutation to work around the rail. HR-Ops blocks it and escalates to the user.
 
 7. **Score yourself honestly.** The `objective_score` (0-10) is how HR-Ops detects performance trends across generations. Inflated scores corrupt the mutation engine. A 4 that's honest is infinitely more valuable than an 8 that's generous.
 
@@ -430,7 +430,7 @@ cognitive-forge → creates agents with agentic_experience pre-configured
 THIS SKILL    → agents self-audit, produce JSON audits + mutation payloads
 hr-ops         → verifies audits, routes intelligence, applies mutations,
                  manages role taxonomy, escalates at generation cap
-iteration-intel → human-readable retrospective (optional, Zion-triggered)
+iteration-intel → human-readable retrospective (optional, user-triggered)
 reflect-integrate → weekly review surfaces cross-agent patterns from hr-ops
 ```
 
